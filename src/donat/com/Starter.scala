@@ -1,7 +1,11 @@
 package donat.com
 
+import donat.com.myArray.MyArray
+
 object Starter extends App {
 
-  println("Hello")
+  val myArray = MyArray(10)
+
+  myArray.array.foreach(println)
 
 }
