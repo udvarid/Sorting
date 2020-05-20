@@ -1,11 +1,12 @@
 package donat.com
 
-import donat.com.myArray.MyArray
+import donat.com.manager.ArrayManager
 
 object Starter extends App {
+  val arrayManager = new ArrayManager(20)
 
-  val myArray = MyArray(10)
+  arrayManager.showMyArray
 
-  myArray.array.foreach(println)
+  arrayManager.sortBySelection
 
 }
