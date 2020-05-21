@@ -17,7 +17,12 @@ case class MyArray(size: Int, unique: Boolean, range: Int) {
     }
   }
 
-  private def schuffle: Array[Int] = {
+  def isItSorted(arrayToCheck: Array[Int]): Boolean = {
+    if (arrayToCheck.tail.isEmpty) true
+    else arrayToCheck.head <= arrayToCheck.tail.head && isItSorted(arrayToCheck.tail)
+  }
+
+  def schuffle: Array[Int] = {
     @tailrec
     def createSchuffled(schuffled: Array[Int], oldOne: Array[Int]): Array[Int] = {
       if (oldOne.length == 0) schuffled
@@ -47,7 +52,25 @@ case class MyArray(size: Int, unique: Boolean, range: Int) {
     createSorted(Array[Int](), array)
   }
 
-  def insertionSort: Array[Int] = ???
+  def insertionSort: Array[Int] = {
+
+    @tailrec
+    def insertInto(leftArray: Array[Int], rightArray: Array[Int], intruder: Int): Array[Int] = {
+      if (rightArray.isEmpty) leftArray :+ intruder
+      else {
+        if (intruder <= rightArray.head) (leftArray :+ intruder) ++ rightArray
+        else insertInto(leftArray :+ rightArray.head, rightArray.tail, intruder)
+      }
+    }
+
+    @tailrec
+    def createSorted(sortedArray: Array[Int], oldArray: Array[Int]): Array[Int] = {
+      if (oldArray.isEmpty) sortedArray
+      else createSorted(insertInto(Array[Int](), sortedArray, oldArray.head), oldArray.tail)
+    }
+
+    createSorted(Array[Int](), array)
+  }
 
   def shellSort: Array[Int] = ???
 
