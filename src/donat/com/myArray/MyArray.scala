@@ -37,7 +37,7 @@ case class MyArray(size: Int, unique: Boolean, range: Int) {
     createSchuffled(Array[Int](array.head), array.tail)
   }
 
-  def selectionSort: Array[Int] = {
+  def selectionSortOld: Array[Int] = {
 
     @tailrec
     def createSorted(sortedArray: Array[Int], oldArray: Array[Int]): Array[Int] = {
@@ -51,6 +51,26 @@ case class MyArray(size: Int, unique: Boolean, range: Int) {
 
     createSorted(Array[Int](), array)
   }
+
+  def selectionSort: Array[Int] = {
+    val newArray: Array[Int] = array map (identity)
+
+    for (i <- 0 until newArray.length - 1) {
+      var min: Int = Int.MaxValue
+      var index: Int = 0
+      for (j <- i until newArray.length) {
+        if (newArray(j) <= min) {
+          min = newArray(j)
+          index = j
+        }
+      }
+      newArray(index) = newArray(i)
+      newArray(i) = min
+    }
+
+    newArray
+  }
+
 
   def insertionSort: Array[Int] = {
 
