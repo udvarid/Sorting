@@ -18,11 +18,14 @@ case class MyArray(size: Int, unique: Boolean, range: Int) {
   }
 
   def isItSorted(arrayToCheck: Array[Int]): Boolean = {
-    if (arrayToCheck.tail.isEmpty) true
-    else arrayToCheck.head <= arrayToCheck.tail.head && isItSorted(arrayToCheck.tail)
+    for (i <- 0 until arrayToCheck.length - 1) {
+      if (arrayToCheck(i) > arrayToCheck(i + 1)) return false
+    }
+    true
   }
 
-  def schuffle: Array[Int] = {
+
+  def schuffleOld: Array[Int] = {
     @tailrec
     def createSchuffled(schuffled: Array[Int], oldOne: Array[Int]): Array[Int] = {
       if (oldOne.length == 0) schuffled
@@ -35,6 +38,17 @@ case class MyArray(size: Int, unique: Boolean, range: Int) {
     }
 
     createSchuffled(Array[Int](array.head), array.tail)
+  }
+
+  def schuffle: Array[Int] = {
+    val newArray: Array[Int] = array map (identity)
+    for (i <- 1 until newArray.length) {
+      val exchangeIndex: Int = Random.nextInt(i)
+      val exchangeValue: Int = newArray(exchangeIndex)
+      newArray(exchangeIndex) = newArray(i)
+      newArray(i) = exchangeValue
+    }
+    newArray
   }
 
   def selectionSortOld: Array[Int] = {
@@ -72,7 +86,7 @@ case class MyArray(size: Int, unique: Boolean, range: Int) {
   }
 
 
-  def insertionSort: Array[Int] = {
+  def insertionSortOld: Array[Int] = {
 
     @tailrec
     def insertInto(leftArray: Array[Int], rightArray: Array[Int], intruder: Int): Array[Int] = {
@@ -92,7 +106,52 @@ case class MyArray(size: Int, unique: Boolean, range: Int) {
     createSorted(Array[Int](), array)
   }
 
-  def shellSort: Array[Int] = ???
+  def insertionSort: Array[Int] = {
+    val newArray: Array[Int] = array map (identity)
+
+    val swap: Int => Unit = x => {
+      val puff = newArray(x)
+      newArray(x) = newArray(x + 1)
+      newArray(x + 1) = puff
+    }
+
+    for (i <- 1 until newArray.length) {
+      var openDoor: Boolean = true
+      var j = i - 1
+      while (j >= 0 && openDoor) {
+        if (newArray(j) > newArray(j + 1)) swap(j)
+        else openDoor = false
+        j = j - 1
+      }
+    }
+    newArray
+  }
+
+  def shellSort: Array[Int] = {
+
+    val newArray: Array[Int] = array map (identity)
+
+
+    newArray
+
+    //    public static void sort(Comparable[] a)
+    //    {
+    //      int N = a.length;
+    //      int h = 1;
+    //      while (h < N/3) h = 3*h + 1; // 1, 4, 13, 40, 121, 364, ...
+    //      while (h >= 1)
+    //      { // h-sort the array.
+    //        for (int i = h; i < N; i++)
+    //        {
+    //          for (int j = i; j >= h && less(a[j], a[j-h]); j -= h)
+    //          exch(a, j, j-h);
+    //        }
+    //
+    //        h = h/3;
+    //      }
+    //    }
+    //
+  }
 
   def mergeSort: Array[Int] = ???
 
