@@ -61,11 +61,29 @@ class ArrayManager(size: Int, unique: Boolean = false, range: Int = 1000) {
 
   private def sortByInsertion: Unit = {
     val t0 = System.nanoTime()
-    val sortedArray: Array[Int] = myArray.insertionSort
+    val sortedArray: Array[Int] = myArray.insertionSort()
     val t1 = System.nanoTime()
     val elapsedTime = t1 - t0
     if (myArray.isItSorted(sortedArray)) results += ("Sort by Insertion" -> elapsedTime / 1000000)
     else results += ("Sort by Insertion - not succes" -> -1)
+  }
+
+  private def sortByShellInsertion: Unit = {
+    val t0 = System.nanoTime()
+    val sortedArray: Array[Int] = myArray.insertionSort(true)
+    val t1 = System.nanoTime()
+    val elapsedTime = t1 - t0
+    if (myArray.isItSorted(sortedArray)) results += ("Sort by Shell-Insertion" -> elapsedTime / 1000000)
+    else results += ("Sort by Shell-Insertion - not succes" -> -1)
+  }
+
+  private def sortByMerge: Unit = {
+    val t0 = System.nanoTime()
+    val sortedArray: Array[Int] = myArray.mergeSort
+    val t1 = System.nanoTime()
+    val elapsedTime = t1 - t0
+    if (myArray.isItSorted(sortedArray)) results += ("Sort by Merge" -> elapsedTime / 1000000)
+    else results += ("Sort by Merge - not succes" -> -1)
   }
 
   def measureAlgorithmics: Unit = {
@@ -76,6 +94,8 @@ class ArrayManager(size: Int, unique: Boolean = false, range: Int = 1000) {
     sortBySelection
     //sortByInsertionScala
     sortByInsertion
+    sortByShellInsertion
+    sortByMerge
 
     results.foreach(m => println(s"${m._1}: elapsed time: ${m._2} ms"))
   }
