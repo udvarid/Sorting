@@ -130,9 +130,7 @@ case class MyArray(size: Int, unique: Boolean, var range: Int) {
       }
 
       if (!shell) 1
-      else {
-        calcStep(1)
-      }
+      else calcStep(1)
     }
 
     while (step >= 1) {
@@ -208,7 +206,35 @@ case class MyArray(size: Int, unique: Boolean, var range: Int) {
     newArray
   }
 
-  def quickSort: Array[Int] = ???
+  def quickSort: Array[Int] = {
+    val newArray: Array[Int] = array map identity
+
+    def sortIt(low: Int, high: Int): Unit = {
+      if (low < high) {
+        val pi = partition(low, high)
+        sortIt(low, pi - 1)
+        sortIt(pi + 1, high)
+      }
+    }
+
+    def partition(low: Int, high: Int): Int = {
+      val pivot = newArray(high)
+      var i = low - 1
+      for (j <- low until high) {
+        if (newArray(j) < pivot) {
+          i += 1
+          swap(i, j, newArray)
+
+        }
+      }
+      swap(i + 1, high, newArray)
+      i + 1
+    }
+
+    sortIt(0, newArray.length - 1)
+
+    newArray
+  }
 
 
 }

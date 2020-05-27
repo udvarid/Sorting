@@ -86,6 +86,33 @@ class ArrayManager(size: Int, unique: Boolean = false, range: Int = 1000) {
     else results += ("Sort by Merge - not succes" -> -1)
   }
 
+  private def sortByQuick: Unit = {
+    val t0 = System.nanoTime()
+    val sortedArray: Array[Int] = myArray.quickSort
+    val t1 = System.nanoTime()
+    val elapsedTime = t1 - t0
+    if (myArray.isItSorted(sortedArray)) results += ("Sort by Quick" -> elapsedTime / 1000000)
+    else results += ("Sort by Quick - not succes" -> -1)
+  }
+
+  private def compareArrays(arrayA: Array[Int], arrayB: Array[Int]): Boolean = {
+    arrayA.sameElements(arrayB)
+  }
+
+  def comparisonCheck: Boolean = {
+
+    val arrayA = myArray.selectionSort
+    val arrayB = myArray.insertionSort()
+    val arrayC = myArray.insertionSort(true)
+    val arrayD = myArray.mergeSort
+    val arrayE = myArray.quickSort
+
+    compareArrays(arrayA, arrayB) &&
+      compareArrays(arrayB, arrayC) &&
+      compareArrays(arrayC, arrayD) &&
+      compareArrays(arrayD, arrayE)
+  }
+
   def measureAlgorithmics: Unit = {
 
     //schuffleScala
@@ -96,7 +123,10 @@ class ArrayManager(size: Int, unique: Boolean = false, range: Int = 1000) {
     sortByInsertion
     sortByShellInsertion
     sortByMerge
-
+    sortByQuick
     results.foreach(m => println(s"${m._1}: elapsed time: ${m._2} ms"))
+
+    println("-------------")
+    println(s"Result of sorting comparison is $comparisonCheck")
   }
 }
